@@ -1,11 +1,12 @@
 // import { Link } from 'react-router-dom';
 import 'flowbite';
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import i18n from '../config/i18n'; // Import the i18n configuration
 
 function Navbar() {
   const { t } = useTranslation();
+  const [cartItemCount, setCartItemCount] = useState(0); // State to keep track of cart items
 
   const handleLanguageChange = (event) => {
     const selectedLanguage = event.target.value;
@@ -38,24 +39,32 @@ function Navbar() {
           </div>
         </div>
         {/* Language Dropdown */}
-        <div className="flex items-center ml-4">
+        <div className="flex items-center ml-4 space-x-4">
           <select
             onChange={handleLanguageChange}
             className="p-2 text-sm border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           >
-            <option value="en">
-              <span role="img" aria-label="English">🇺🇸</span> English
-            </option>
-            <option value="es">
-              <span role="img" aria-label="Spanish">🇪🇸</span> Spanish
-            </option>
-            <option value="fr">
-              <span role="img" aria-label="French">🇫🇷</span> French
-            </option>
-            <option value="de">
-              <span role="img" aria-label="German">🇩🇪</span> German
-            </option>
+            <option value="en">🇺🇸 English</option>
+            <option value="es">🇪🇸 Spanish</option>
+            <option value="fr">🇫🇷 French</option>
+            <option value="de">🇩🇪 German</option>
           </select>
+          {/* Sign In Button */}
+          <a href="#" className="text-sm font-medium text-gray-500 hover:text-gray-900 dark:hover:text-white">
+            {t('sign_in')}
+          </a>
+          {/* Cart Icon with Item Count */}
+          <div className="relative">
+            <a href="#" className="flex items-center text-gray-500 hover:text-gray-900 dark:hover:text-white">
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.35 4.35c-.1.31.03.65.32.85a1 1 0 00.68.15l1.41-.33a1 1 0 00.75-.57l.5-1.18m5-10H5.4m7.6 0h7.72a1 1 0 01.98 1.2l-1.2 6a1 1 0 01-.98.8H9.1M16 16a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+              </svg>
+              <span className="ml-1">{t('cart')}</span>
+            </a>
+            <span className="absolute top-0 right-0 inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-500 rounded-full">
+              {cartItemCount}
+            </span>
+          </div>
         </div>
         <button
           data-collapse-toggle="navbar-dropdown"
@@ -71,49 +80,7 @@ function Navbar() {
         </button>
         <div className="hidden w-full md:flex md:w-auto" id="navbar-dropdown">
           <div className="flex items-center w-full">
-            {/* Navigation Links */}
-            <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-              <li>
-                <a href="#" className="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500 dark:bg-blue-600 md:dark:bg-transparent" aria-current="page">{t('home')}</a>
-              </li>
-              <li>
-                <button
-                  id="dropdownNavbarLink"
-                  data-dropdown-toggle="dropdownNavbar"
-                  className="flex items-center justify-between w-full py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-white md:dark:hover:text-blue-500 dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
-                >
-                  Dropdown
-                  <svg className="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
-                  </svg>
-                </button>
-                <div id="dropdownNavbar" className="z-10 hidden font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
-                  <ul className="py-2 text-sm text-gray-700 dark:text-gray-400" aria-labelledby="dropdownLargeButton">
-                    <li>
-                      <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">{t('dashboard')}</a>
-                    </li>
-                    <li>
-                      <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">{t('settings')}</a>
-                    </li>
-                    <li>
-                      <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">{t('earnings')}</a>
-                    </li>
-                  </ul>
-                  <div className="py-1">
-                    <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">{t('sign_out')}</a>
-                  </div>
-                </div>
-              </li>
-              <li>
-                <a href="#" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">{t('services')}</a>
-              </li>
-              <li>
-                <a href="#" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">{t('pricing')}</a>
-              </li>
-              <li>
-                <a href="#" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">{t('contact')}</a>
-              </li>
-            </ul>
+            {/* Navigation Links - Removed */}
           </div>
         </div>
       </div>
@@ -122,6 +89,9 @@ function Navbar() {
 }
 
 export default Navbar;
+
+
+
 
 
 

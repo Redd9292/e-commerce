@@ -1,10 +1,25 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useCart } from '../contexts/CartContext';
+import axios from 'axios';
 
 function Navbar() {
   const { cart } = useCart();
   const cartItemCount = cart.reduce((total, item) => total + item.quantity, 0);
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get('https://fakestoreapi.com/products/categories');
+        setCategories(response.data);
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   return (
     <nav className="bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700">
@@ -51,7 +66,16 @@ function Navbar() {
         </div>
         <div className="mt-4 flex justify-center">
           <ul className="flex flex-wrap space-x-4">
-            {/* Categories here */}
+            {categories.map((category) => (
+              <li key={category}>
+                <Link
+                  to={`/category/${category}`}
+                  className="text-gray-700 hover:bg-gray-50 px-3 py-2 rounded-md text-sm font-medium dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                >
+                  {category}
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
       </div>
@@ -60,7 +84,4 @@ function Navbar() {
 }
 
 export default Navbar;
-
-
-
 

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { fetchProducts } from '../services/fakeStoreApi';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
 import ProductCard from '../components/ProductCard';
 
 const Home = () => {
@@ -7,12 +8,16 @@ const Home = () => {
   const [cart, setCart] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { category } = useParams();
 
   useEffect(() => {
     const getProducts = async () => {
       try {
-        const data = await fetchProducts();
-        setProducts(data);
+        const url = category
+          ? `https://fakestoreapi.com/products/category/${category}`
+          : 'https://fakestoreapi.com/products';
+        const response = await axios.get(url);
+        setProducts(response.data);
         setLoading(false);
       } catch (error) {
         setError(error);
@@ -21,7 +26,7 @@ const Home = () => {
     };
 
     getProducts();
-  }, []);
+  }, [category]);
 
   const addToCart = (product) => {
     setCart((prevCart) => {
@@ -49,9 +54,9 @@ const Home = () => {
         ))}
       </div>
       <div className="cart mt-8">
-        <h2 className="text-xl font-bold mb-4"></h2>
+        <h2 className="text-xl font-bold mb-4">Cart</h2>
         {cart.length === 0 ? (
-          <p></p>
+          <p>Your cart is empty</p>
         ) : (
           <ul>
             {cart.map((item) => (
@@ -68,4 +73,5 @@ const Home = () => {
 };
 
 export default Home;
+
 

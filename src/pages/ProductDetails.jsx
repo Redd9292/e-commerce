@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchProduct } from '../services/fakeStoreApi';
+import { useCart } from '../contexts/CartContext';
 
 const ProductDetails = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { addToCart } = useCart();
 
   useEffect(() => {
     const getProduct = async () => {
@@ -29,12 +31,19 @@ const ProductDetails = () => {
   return (
     <div className="p-4">
       {product && (
-        <div className="max-w-xl mx-auto">
-          <img className="w-full h-64 object-cover mb-4" src={product.image} alt={product.title} />
-          <h1 className="text-2xl font-bold mb-2">{product.title}</h1>
-          <p className="text-gray-700 mb-4">{product.description}</p>
-          <p className="text-xl font-bold mb-4">Price: ${product.price}</p>
-          <button className="bg-blue-500 text-white py-2 px-4 rounded">Add to Cart</button>
+        <div className="max-w-4xl mx-auto flex flex-col md:flex-row md:space-x-6">
+          <img className="w-full md:w-1/2 h-64 object-cover mb-4 md:mb-0" src={product.image} alt={product.title} />
+          <div className="md:w-1/2">
+            <h1 className="text-2xl font-bold mb-2">{product.title}</h1>
+            <p className="text-gray-700 mb-4">{product.description}</p>
+            <p className="text-xl font-bold mb-4">Price: ${product.price}</p>
+            <button
+              onClick={() => addToCart(product)}
+              className="bg-blue-500 text-white py-2 px-4 rounded"
+            >
+              Add to Cart
+            </button>
+          </div>
         </div>
       )}
     </div>
@@ -42,3 +51,5 @@ const ProductDetails = () => {
 };
 
 export default ProductDetails;
+
+

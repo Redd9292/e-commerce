@@ -1,39 +1,22 @@
 import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import ProductCard from '../components/ProductCard';
 
-const Home = ({ searchQuery, category }) => {
+const SearchResults = () => {
+  const { query } = useParams();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const getProducts = async () => {
-      try {
-        let url = 'https://fakestoreapi.com/products';
-        if (category) {
-          url = `https://fakestoreapi.com/products/category/${category}`;
-        }
-        const response = await axios.get(url);
-        setProducts(response.data);
-        setLoading(false);
-      } catch (error) {
-        setError(error);
-        setLoading(false);
-      }
-    };
-
-    getProducts();
-  }, [category]);
-
-  useEffect(() => {
-    const fetchProducts = async () => {
+    const fetchSearchResults = async () => {
       try {
         const response = await axios.get('https://fakestoreapi.com/products');
         const filteredProducts = response.data.filter(product =>
-          product.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          product.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          product.category.toLowerCase().includes(searchQuery.toLowerCase())
+          product.title.toLowerCase().includes(query.toLowerCase()) ||
+          product.description.toLowerCase().includes(query.toLowerCase()) ||
+          product.category.toLowerCase().includes(query.toLowerCase())
         );
         setProducts(filteredProducts);
         setLoading(false);
@@ -43,17 +26,15 @@ const Home = ({ searchQuery, category }) => {
       }
     };
 
-    if (searchQuery) {
-      fetchProducts();
-    }
-  }, [searchQuery]);
+    fetchSearchResults();
+  }, [query]);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error loading products: {error.message}</p>;
 
   return (
-    <div className="home p-4">
-      <h1 className="text-2xl font-bold mb-4">Product List</h1>
+    <div className="search-results p-4">
+      <h1 className="text-2xl font-bold mb-4">Search Results for "{query}"</h1>
       <div className="product-list grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {products.map((product) => (
           <ProductCard key={product.id} product={product} />
@@ -63,5 +44,5 @@ const Home = ({ searchQuery, category }) => {
   );
 };
 
-export default Home;
+export default SearchResults;
 

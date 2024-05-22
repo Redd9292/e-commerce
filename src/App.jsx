@@ -11,19 +11,21 @@ function App() {
   return (
     <Router>
       <div className='flex flex-col min-h-screen'>
-      <Navbar />
-      <main className='flex-grow'>
-      <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/product/:id' element={<ProductDetails />} />
-        <Route path='/cart' element={<Cart />} />
-        <Route path='/checkout' element={<Checkout />} />
-      </Routes>
-      </main>
-      <Footer />
+        <Navbar />
+        <main className='flex-grow'>
+          <Routes>
+            <Route path='/' element={<Home />} />
+            <Route path='/product/:id' element={<ProductDetails />} />
+            <Route path='/cart' element={<Cart />} />
+            <Route path='/checkout' element={<Checkout />} />
+          </Routes>
+        </main>
+        <Footer />
       </div>
     </Router>
   );
 }
+
 export default App;
+
 

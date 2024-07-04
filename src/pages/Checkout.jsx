@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import { useCart } from '../contexts/CartContext';
 
-// Replace with your actual public key from Stripe
+
 const stripePromise = loadStripe('your-public-key-from-stripe');
 
 const Checkout = () => {
@@ -22,7 +22,7 @@ const Checkout = () => {
       body: JSON.stringify({
         items: cart.map(item => ({
           name: item.title,
-          price: item.price * 100, // Convert to cents
+          price: item.price * 100, 
           quantity: item.quantity,
         })),
       }),

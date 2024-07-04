@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../contexts/CartContext';
 import axios from 'axios';
 import debounce from 'lodash.debounce';
-import logo from '../assets/omnismart-logo.png'; // Make sure to use the correct path to your logo
+import logo from '../assets/omnismart-logo.png'; 
 
 function Navbar({ onCategoryChange, onSearch }) {
   const { cart } = useCart();

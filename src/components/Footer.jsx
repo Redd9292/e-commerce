@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from '../assets/omnismart-logo.png'; // Ensure this path matches your project structure
+import logo from '../assets/omnismart-logo.png'; 
 
 function Footer() {
   return (

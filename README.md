@@ -29,7 +29,8 @@ Checkout:
 ## Technologies
 
 - Frontend: Vite-React
-- Flowbite Tailwind
+- Tailwind CSS
+- Flowbite
 
 ## Usage
 
